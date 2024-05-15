@@ -4,20 +4,19 @@
             <form @submit="submit">
                 <img alt="logo" class="logo" src="../assets/elnino.png">
                 <h2>Sign Up</h2>
-                <div>
-                    <label for="email">Email</label><br>
-                    <input type="email" id="email" name="email" required>
+                <div class="input-container">
+                    <input type="email" id="email" name="email" required class="login-input" placeholder="Email">
                 </div>
-                <div>
-                    <label for="password">Create Password</label><br>
-                    <input type="password" id="password" name="password" required>
+                <div class="input-container">
+                    <p style="text-align:left; font-size:13px">Create Password</p>
+                    <input type="password" id="password" name="password" required class="login-input" placeholder="Password">
                 </div>
-                <div>
-                    <label for="confirm-password">Confirm Password</label><br>
-                    <input type="password" id="confirm" name="confirm" required>
+                <div class="input-container">
+                    <p style="text-align:left; font-size:13px">Confirm Password</p>
+                    <input type="password" id="confirm" name="confirm" required class="login-input" placeholder="Password">
                 </div>
                 <br>
-                <button type="submit">회원가입</button>
+                <button type="submit" class="signup-button">회원가입</button>
             </form>
         </div>
     </div>

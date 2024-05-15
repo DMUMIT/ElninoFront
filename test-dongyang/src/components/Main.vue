@@ -1,22 +1,12 @@
 <template>
   <div class="Main">
-    <li>
-      <ul>
         <h3>선택기술</h3>
-        <button>test1</button>
-        <button>test1</button>
-        <button>test1</button>
-      </ul>
-      <ul>
+        <button class="tech-button">Java</button>
+        <button class="tech-button">Spring</button>
+        <button class="tech-button">SQL</button>
         <h3>Inflearn</h3>
-      </ul>
-      <ul>
         <h3>Youtube</h3>
-      </ul>
-      <ul>
         <h3>K-MOOC</h3>
-      </ul>
-    </li>
   </div>
 </template>
 
@@ -26,20 +16,22 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+ .tech-button {
+    padding: 10px; /* 내부 여백 추가 */
+    margin-left: 10px;
+    border: none; /* 테두리 없음 */
+    background-color: #b3a9ee; /* 배경색 설정 */
+    color: rgb(0, 0, 0); /* 텍스트 색상 설정 */
+    border-radius: 10px; /* 둥근 모서리를 가진 버튼으로 만듦 */
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    width: 70px;
+ }
+ .tech-button:hover {
+    background-color: #897bd8;
+ }
+ .Main {
+    float: left;
+    padding-left: 1%;
+ }
 </style>

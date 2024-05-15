@@ -1,11 +1,7 @@
 <template>
     <div class="todo">
-        <article>
-            <aside>
-                <h1>메모장</h1>
-                <textarea class="memo-input" placeholder="메모를 입력하세요..."></textarea>
-            </aside>
-        </article>
+        <h3>메모장</h3>
+        <textarea class="memo"></textarea>
     </div>
 </template>
 
@@ -14,3 +10,15 @@ export default {
   name: 'MemoItem'
 }
 </script>
+
+<style>
+ .memo {
+    width: 300px;
+    height: 310px;
+    resize: none;
+    border-radius: 10px;
+    border: 1px solid #cccccc00;
+    font-size: 20px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+ }
+</style>
