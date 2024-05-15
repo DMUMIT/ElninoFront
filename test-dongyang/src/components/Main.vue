@@ -4,6 +4,8 @@
       <ul>
         <h3>선택기술</h3>
         <button>test1</button>
+        <button>test1</button>
+        <button>test1</button>
       </ul>
       <ul>
         <h3>Inflearn</h3>

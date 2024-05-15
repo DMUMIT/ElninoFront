@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <img alt="logo" src="../assets/elnino.png">
+    <img alt="logo" class="logo" src="../assets/elnino.png">
     <MainItem/>
     <MemoItem/>
   </div>

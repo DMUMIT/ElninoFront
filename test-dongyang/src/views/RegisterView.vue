@@ -3,19 +3,22 @@
         <div class="login-box">
             <form @submit="submit">
                 <img alt="logo" class="logo" src="../assets/elnino.png">
-                <h2>Welcome</h2>
+                <h2>Sign Up</h2>
                 <div>
                     <label for="email">Email</label><br>
                     <input type="email" id="email" name="email" required>
                 </div>
                 <div>
-                    <label for="password">Password</label><br>
+                    <label for="password">Create Password</label><br>
                     <input type="password" id="password" name="password" required>
                 </div>
-                <button type="submit">로그인</button>
+                <div>
+                    <label for="confirm-password">Confirm Password</label><br>
+                    <input type="password" id="confirm" name="confirm" required>
+                </div>
+                <br>
+                <button type="submit">회원가입</button>
             </form>
-            <hr>
-            <button type="submit">회원가입</button>
         </div>
     </div>
 </template>
@@ -23,11 +26,12 @@
 <script>
 export default {
 /* eslint-disable */
-    name: 'LoginView',
+name: 'RegisterView',
     data() {
             return {
                 email: '',
-                password: ''
+                password: '',
+                confirm: ''
             }
     },
     methods: {
@@ -37,18 +41,3 @@ export default {
     }
 }
 </script>
-
-<style>
-    .logo {
-        width: 250px;
-        height: 70px;
-    }
-    .login-box {
-        width: 450px; /* 원하는 너비로 조정 */
-        margin: auto; /* 가운데 정렬을 위해 */
-        border: 1px solid #ebebeb; /* 선택적으로 박스에 테두리 추가 */
-        border-radius: 50px;
-        background-color: #ebebeb;
-        padding: 20px; /* 내용과 테두리 사이의 간격 조정 */
-    }
-</style>
