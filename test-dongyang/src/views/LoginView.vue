@@ -11,7 +11,7 @@
                     <input type="password" id="password" name="password" required class="login-input" placeholder="Password">
                 </div>
                 <br>
-                <button type="submit" class="login-button">로그인</button>
+                <button type="submit" class="login-button" onclick="location.href='/select'">로그인</button>
             </form>
             <hr>
             <button type="submit" class="signup-button">회원가입</button>
