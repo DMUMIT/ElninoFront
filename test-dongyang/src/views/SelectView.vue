@@ -1,13 +1,15 @@
 <template>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <div class="select">
-        <nav class="navbar navbar-light" style="background-color: rgb(162, 162, 255);">
+        <nav class="navbar navbar-light" style="background-color: rgb(162, 162, 255); height: 50px;">
             Elnino
         </nav>
         <br>
         <form class="submit-form" @submit.prevent="submit">
+            <br>
             <div v-if="step === 1">
                 <h5><span style="color: red;">몇 학년</span>인가요?</h5>
+                <br>
                 <div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="grade" id="grade1" value="1학년" v-model="formData.grade">
@@ -48,6 +50,7 @@
                 <br>
                 <div v-if="formData.category">
                     <h5>선호 <span style="color: red;">{{ formData.category }} 기술</span>을 선택해주세요 (중복선택 가능)</h5>
+                    <br>
                     <div v-for="tech in technologies[formData.category]" :key="tech" class="form-check">
                         <input class="form-check-input" type="checkbox" :id="tech" :value="tech" v-model="formData.technologies">
                         <label class="form-check-label" :for="tech">
@@ -58,37 +61,21 @@
             </div>
             <div v-if="step === 3">
                 <h5>어떤 <span style="color: red;">사이트</span>를 자주 사용하시나요? (중복선택 가능)</h5>
-                <div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="favoriteSite" id="youtube" value="유튜브" v-model="formData.favoriteSites">
-                        <label class="form-check-label" for="youtube">
-                            유튜브
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="favoriteSite" id="inflearn" value="인프런" v-model="formData.favoriteSites">
-                        <label class="form-check-label" for="inflearn">
-                            인프런
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="favoriteSite" id="codeit" value="코드잇" v-model="formData.favoriteSites">
-                        <label class="form-check-label" for="codeit">
-                            코드잇
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="favoriteSite" id="kmooc" value="K-MOOC" v-model="formData.favoriteSites">
-                        <label class="form-check-label" for="kmooc">
-                            K-MOOC
-                        </label>
-                    </div>
+                <br>
+                <div v-for="site in favoriteSite" :key="site" class="form-check">
+                    <input class="form-check-input" type="checkbox" :id="site" :value="site" v-model="formData.favoriteSite">
+                    <label class="form-check-label" :for="site">
+                        {{ site }}
+                    </label>
                 </div>
+            </div>
+            <div v-if="step === 4">
+                <h5>설문조사가 완료되었습니다, 감사합니다.</h5>
             </div>
             <div class="mt-3">
                 <button type="button" class="btn btn-secondary" @click="prevStep" v-if="step > 1" style="background-color: rgb(162, 162, 255);">이전 페이지</button>
-                <button type="button" class="btn btn-primary" @click="nextStep" v-if="step < 3" style="background-color: rgb(162, 162, 255);">다음 페이지</button>
-                <button type="submit" class="btn btn-success" v-if="step === 3" style="background-color: rgb(162, 162, 255);">홈으로</button>
+                <button type="button" class="btn btn-primary" @click="nextStep" v-if="step < 4" style="background-color: rgb(162, 162, 255);">다음 페이지</button>
+                <button type="submit" class="btn btn-success" v-if="step === 4" style="background-color: rgb(162, 162, 255);">시작하기</button>
             </div>
         </form>
     </div>
@@ -111,12 +98,13 @@ export default {
         프론트엔드: ['html/css', 'vue.js', 'react', 'figma'],
         데이터베이스: ['MySQL(MariaDB)', 'Oracle', 'MongoDB', 'PostgreSQL', 'AWS'],
         풀스택: ['Java', 'Spring', 'Node.js', 'Django', 'Docker', 'html/css', 'vue.js', 'react', 'figma']
-      }
+      },
+      favoriteSite: ['Youtube', 'Inflearn', '코드잇', 'K-MOOC']
     }
   },
   methods: {
     nextStep () {
-      if (this.step < 3) {
+      if (this.step < 4) {
         this.step++
       }
     },
@@ -126,8 +114,9 @@ export default {
       }
     },
     submit () {
-      // 여기에 제출 로직을 추가하세요.
+      // 제출 로직 추가
       console.log(this.formData)
+      this.$router.push('/main')
     },
     updateTechnologies () {
       this.formData.technologies = [] // 카테고리가 변경될 때 선택된 기술 초기화
@@ -139,6 +128,7 @@ export default {
 <style scoped>
 .submit-form {
     max-width: 500px;
+    height: 500px;
     margin: auto;
     padding: 1em;
     background-color: white;

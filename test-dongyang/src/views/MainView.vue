@@ -49,6 +49,10 @@ export default {
 </script>
 
 <style>
+  .main-logo {
+        width: 230px;
+        height: 60px;
+    }
   .main-body {
     display: flex;
   }

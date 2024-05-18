@@ -11,30 +11,33 @@
                     <input type="password" id="password" name="password" required class="login-input" placeholder="Password">
                 </div>
                 <br>
-                <button type="submit" class="login-button" onclick="location.href='/select'">로그인</button>
+                <button type="submit" class="login-button">로그인</button>
             </form>
             <hr>
-            <button type="submit" class="signup-button">회원가입</button>
+            <button type="button" class="signup-button" onclick="location.href='/register'">회원가입</button>
         </div>
     </div>
 </template>
 
 <script>
 export default {
-/* eslint-disable */
-    name: 'LoginView',
-    data() {
-            return {
-                email: '',
-                password: ''
-            }
-    },
-    methods: {
-            submit(){
-
-            }
+  name: 'RegisterView',
+  data () {
+    return {
+      formData: {
+        email: '',
+        password: ''
+      }
     }
+  },
+  methods: {
+    submit () {
+      console.log(this.formData)
+      this.$router.push('/select')
+    }
+  }
 }
+
 </script>
 
 <style>
@@ -43,53 +46,49 @@ export default {
         height: 60px;
         display: block;
     }
-    .main-logo {
-        width: 230px;
-        height: 60px;
-    }
     .login-box {
-        width: 450px; /* 원하는 너비로 조정 */
-        margin: auto; /* 가운데 정렬을 위해 */
-        border: 1px solid #ebebeb; /* 선택적으로 박스에 테두리 추가 */
+        width: 450px;
+        margin: auto;
+        border: 1px solid #ebebeb;
         border-radius: 50px;
         background-color: #ebebeb;
-        padding: 50px; /* 내용과 테두리 사이의 간격 조정 */
+        padding: 50px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
     .input-container {
-        margin-bottom: 15px; /* input 요소와 다음 요소 사이의 간격 조정 */
+        margin-bottom: 15px;
     }
-
     .login-input {
-        width: calc(100% - 22px); /* 100% 너비에서 padding 및 border 크기를 제외한 크기로 설정 */
-        padding: 15px; /* 내부 여백 추가 */
-        border: 1px solid #cccccc00; /* 테두리 설정 */
-        border-radius: 5px; /* 둥근 모서리를 가진 input으로 만듦 */
+        width: calc(100% - 22px);
+        padding: 15px;
+        border: 1px solid #cccccc00;
+        border-radius: 5px;
         background-color: #e6e6e6;
     }
     .signup-button {
-        width: 100%; /* 버튼을 100% 너비로 설정하여 부모 요소의 너비에 맞춤 */
-        padding: 15px; /* 내부 여백 추가 */
-        margin-top: 10px; /* 위쪽 여백 추가 */
-        border: none; /* 테두리 없음 */
-        background-color: #535353; /* 배경색 설정 */
-        color: white; /* 텍스트 색상 설정 */
-        border-radius: 5px; /* 둥근 모서리를 가진 버튼으로 만듦 */
-        cursor: pointer; /* 마우스 커서를 포인터로 설정하여 클릭 가능한 상태 표시 */
+        width: 100%;
+        padding: 15px;
+        margin-top: 10px;
+        border: none;
+        background-color: #535353;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
     }
     .signup-button:hover {
-        background-color: #2c2c2c; /* 호버 시 배경색 변경 */
+        background-color: #2c2c2c;
     }
     .login-button {
-        width: 100%; /* 버튼을 100% 너비로 설정하여 부모 요소의 너비에 맞춤 */
-        padding: 15px; /* 내부 여백 추가 */
-        margin-top: 10px; /* 위쪽 여백 추가 */
-        border: none; /* 테두리 없음 */
-        background-color: #67e2c3; /* 배경색 설정 */
-        color: white; /* 텍스트 색상 설정 */
-        border-radius: 5px; /* 둥근 모서리를 가진 버튼으로 만듦 */
-        cursor: pointer; /* 마우스 커서를 포인터로 설정하여 클릭 가능한 상태 표시 */
+        width: 100%;
+        padding: 15px;
+        margin-top: 10px;
+        border: none;
+        background-color: #67e2c3;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
     }
     .login-button:hover {
-        background-color: #57bea5; /* 호버 시 배경색 변경 */
+        background-color: #57bea5;
     }
 </style>

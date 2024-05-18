@@ -3,8 +3,14 @@
 </template>
 
 <style>
+
+@font-face {
+  font-family: 'NotoSans';
+  src: url(NotoSansKR-Regular.ttf);
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: NotoSans, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
