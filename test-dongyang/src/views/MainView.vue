@@ -52,7 +52,7 @@ export default {
   .main-logo {
         width: 230px;
         height: 60px;
-    }
+  }
   .main-body {
     display: flex;
   }

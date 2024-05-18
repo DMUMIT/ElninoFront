@@ -1,19 +1,19 @@
 <template>
     <div class="login">
         <div class="login-box">
-            <form @submit="submit">
+            <form @submit.prevent="accountSubmit">
                 <img alt="logo" class="logo" src="../assets/elnino.png">
                 <h2>Sign Up</h2>
                 <div class="input-container">
-                    <input type="email" id="email" name="email" required class="login-input" placeholder="Email">
+                    <input type="email" id="email" name="email" required class="login-input" placeholder="Email" v-model="formData.email">
                 </div>
                 <div class="input-container">
                     <p style="text-align:left; font-size:13px">Create Password</p>
-                    <input type="password" id="password" name="password" required class="login-input" placeholder="Password">
+                    <input type="password" id="password" name="password" required class="login-input" placeholder="Password" v-model="formData.password">
                 </div>
                 <div class="input-container">
                     <p style="text-align:left; font-size:13px">Confirm Password</p>
-                    <input type="password" id="confirm" name="confirm" required class="login-input" placeholder="Password">
+                    <input type="password" id="confirm" name="confirm" required class="login-input" placeholder="Password" v-model="formData.confirm">
                 </div>
                 <br>
                 <button type="submit" class="signup-button">회원가입</button>
@@ -35,7 +35,7 @@ export default {
     }
   },
   methods: {
-    submit () {
+    accountSubmit () {
       console.log(this.formData)
       this.$router.push('/login')
     }
@@ -48,6 +48,9 @@ export default {
         width: 230px;
         height: 60px;
         display: block;
+    }
+    .login {
+        padding-top: 7%;
     }
     .login-box {
         width: 450px;

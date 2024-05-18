@@ -2,10 +2,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <div class="select">
         <nav class="navbar navbar-light" style="background-color: rgb(162, 162, 255); height: 50px;">
-            Elnino
+            <span style="color: white;">Elnino</span>
         </nav>
         <br>
-        <form class="submit-form" @submit.prevent="submit">
+        <form class="submit-form" @submit.prevent="selectSubmit">
             <br>
             <div v-if="step === 1">
                 <h5><span style="color: red;">몇 학년</span>인가요?</h5>
@@ -73,9 +73,9 @@
                 <h5>설문조사가 완료되었습니다, 감사합니다.</h5>
             </div>
             <div class="mt-3">
-                <button type="button" class="btn btn-secondary" @click="prevStep" v-if="step > 1" style="background-color: rgb(162, 162, 255);">이전 페이지</button>
-                <button type="button" class="btn btn-primary" @click="nextStep" v-if="step < 4" style="background-color: rgb(162, 162, 255);">다음 페이지</button>
-                <button type="submit" class="btn btn-success" v-if="step === 4" style="background-color: rgb(162, 162, 255);">시작하기</button>
+                <button type="button" class="select-button-left" @click="prevStep" v-if="step > 0">이전 페이지</button>
+                <button type="button" class="select-button-right" @click="nextStep" v-if="step < 4">다음 페이지</button>
+                <button type="submit" class="select-button-right" v-if="step === 4">시작하기</button>
             </div>
         </form>
     </div>
@@ -113,7 +113,7 @@ export default {
         this.step--
       }
     },
-    submit () {
+    selectSubmit () {
       // 제출 로직 추가
       console.log(this.formData)
       this.$router.push('/main')
@@ -128,11 +128,45 @@ export default {
 <style scoped>
 .submit-form {
     max-width: 500px;
-    height: 500px;
+    height: 520px;
     margin: auto;
-    padding: 1em;
+    padding-top: 1%;
+    padding-left: 1%;
+    padding-right: 1%;
     background-color: white;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.form-check {
+    padding-left: 40%;
+    display: flex;
+}
+.form-check-label {
+    padding-left: 5%;
+}
+.select-button-left {
+        width: 30%;
+        padding: 3px;
+        margin-top: 10px;
+        margin-right: 50px;
+        border: none;
+        background-color: rgb(162, 162, 255);;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+}
+.select-button-right {
+        width: 30%;
+        padding: 3px;
+        margin-top: 10px;
+        margin-left: 100px;
+        border: none;
+        background-color: rgb(162, 162, 255);;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+}
+.select-button-left:hover, .select-button-right:hover {
+    background-color: rgb(137, 137, 218);
 }
 </style>

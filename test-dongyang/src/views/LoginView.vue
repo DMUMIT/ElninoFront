@@ -1,14 +1,14 @@
 <template>
     <div class="login">
         <div class="login-box">
-            <form @submit="submit">
+            <form @submit.prevent="loginSubmit">
                 <img alt="logo" class="logo" src="../assets/elnino.png">
                 <h2>Welcome</h2>
                 <div class="input-container">
-                    <input type="email" id="email" name="email" required class="login-input" placeholder="Email">
+                    <input type="email" id="email" name="email" required class="login-input" placeholder="Email" v-model="formData.email">
                 </div>
                 <div class="input-container">
-                    <input type="password" id="password" name="password" required class="login-input" placeholder="Password">
+                    <input type="password" id="password" name="password" required class="login-input" placeholder="Password" v-model="formData.password">
                 </div>
                 <br>
                 <button type="submit" class="login-button">로그인</button>
@@ -31,7 +31,7 @@ export default {
     }
   },
   methods: {
-    submit () {
+    loginSubmit () {
       console.log(this.formData)
       this.$router.push('/select')
     }
@@ -45,6 +45,9 @@ export default {
         width: 230px;
         height: 60px;
         display: block;
+    }
+    .login {
+        padding-top: 7%;
     }
     .login-box {
         width: 450px;
