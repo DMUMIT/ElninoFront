@@ -36,6 +36,7 @@
                         </label>
                     </div>
                 </div>
+                <p v-if="validationErrors.message" style="color: red; font-size: 13px;">{{ validationErrors.message }}</p>
             </div>
             <div v-if="step === 2">
                 <h5>원하시는 <span style="color: red;">카테고리</span>를 선택해주세요</h5>
@@ -58,6 +59,7 @@
                         </label>
                     </div>
                 </div>
+                <p v-if="validationErrors.message" style="color: red; font-size: 13px;">{{ validationErrors.message }}</p>
             </div>
             <div v-if="step === 3">
                 <h5>어떤 <span style="color: red;">사이트</span>를 자주 사용하시나요? (중복선택 가능)</h5>
@@ -68,6 +70,7 @@
                         {{ site }}
                     </label>
                 </div>
+                <p v-if="validationErrors.message" style="color: red; font-size: 13px;">{{ validationErrors.message }}</p>
             </div>
             <div v-if="step === 4">
                 <h5>설문조사가 완료되었습니다, 감사합니다.</h5>
@@ -93,6 +96,9 @@ export default {
         technologies: [],
         favoriteSite: []
       },
+      validationErrors: {
+        message: ''
+      },
       technologies: {
         백엔드: ['Java', 'Spring', 'Node.js', 'Django', 'Docker'],
         프론트엔드: ['html/css', 'vue.js', 'react', 'figma'],
@@ -103,9 +109,29 @@ export default {
     }
   },
   methods: {
+    validateForm () {
+      this.validationErrors = {
+        message: ''
+      }
+      if (this.step === 1 && !this.formData.grade) {
+        this.validationErrors.message = '학년을 선택해주세요.'
+        return false
+      }
+      if (this.step === 2 && (!this.formData.category || this.formData.technologies.length === 0)) {
+        this.validationErrors.message = '카테고리와 선호 기술을 선택해주세요.'
+        return false
+      }
+      if (this.step === 3 && this.formData.favoriteSite.length === 0) {
+        this.validationErrors.message = '선호 사이트를 선택해주세요.'
+        return false
+      }
+      return true
+    },
     nextStep () {
-      if (this.step < 4) {
-        this.step++
+      if (this.validateForm()) {
+        if (this.step < 4) {
+          this.step++
+        }
       }
     },
     prevStep () {

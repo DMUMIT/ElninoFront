@@ -5,17 +5,19 @@
                 <img alt="logo" class="logo" src="../assets/elnino.png">
                 <h2>Sign Up</h2>
                 <div class="input-container">
-                    <input type="email" id="email" name="email" required class="login-input" placeholder="Email" v-model="formData.email">
+                    <input type="email" id="email" name="email" class="login-input" placeholder="Email" v-model="formData.email">
+                    <p v-if="validationErrors.email" style="color: red; font-size: 13px;">{{ validationErrors.email }}</p>
                 </div>
                 <div class="input-container">
                     <p style="text-align:left; font-size:13px">Create Password</p>
-                    <input type="password" id="password" name="password" required class="login-input" placeholder="Password" v-model="formData.password">
+                    <input type="password" id="password" name="password" class="login-input" placeholder="Password" v-model="formData.password">
+                    <p v-if="validationErrors.password" style="color: red; font-size: 13px;">{{ validationErrors.password }}</p>
                 </div>
                 <div class="input-container">
                     <p style="text-align:left; font-size:13px">Confirm Password</p>
-                    <input type="password" id="confirm" name="confirm" required class="login-input" placeholder="Password" v-model="formData.confirm">
+                    <input type="password" id="confirm" name="confirm" class="login-input" placeholder="Password" v-model="formData.confirm">
+                    <p v-if="validationErrors.confirm" style="color: red; font-size: 13px;">{{ validationErrors.confirm }}</p>
                 </div>
-                <br>
                 <button type="submit" class="signup-button">회원가입</button>
             </form>
         </div>
@@ -31,13 +33,41 @@ export default {
         email: '',
         password: '',
         confirm: ''
+      },
+      validationErrors: {
+        email: '',
+        password: '',
+        confirm: ''
       }
     }
   },
   methods: {
+    validateForm () {
+      this.validationErrors = {
+        email: '',
+        password: '',
+        confirm: ''
+      }
+      if (!this.formData.email) {
+        this.validationErrors.email = '이메일을 입력해주세요.'
+      }
+      if (!this.formData.password) {
+        this.validationErrors.password = '비밀번호를 입력해주세요.'
+      }
+      if (!this.formData.confirm) {
+        this.validationErrors.confirm = '비밀번호 확인을 위해 입력해주세요.'
+      }
+      if (this.formData.password && this.formData.confirm && this.formData.password !== this.formData.confirm) {
+        this.validationErrors.confirm = '동일한 비밀번호를 입력해주세요.'
+      }
+      return Object.values(this.validationErrors).every(error => !error)
+    },
     accountSubmit () {
-      console.log(this.formData)
-      this.$router.push('/login')
+      if (this.validateForm()) {
+        // 데이터 넘기는 코드 추가
+        console.log(this.formData)
+        this.$router.push('/login')
+      }
     }
   }
 }

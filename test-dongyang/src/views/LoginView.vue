@@ -5,12 +5,13 @@
                 <img alt="logo" class="logo" src="../assets/elnino.png">
                 <h2>Welcome</h2>
                 <div class="input-container">
-                    <input type="email" id="email" name="email" required class="login-input" placeholder="Email" v-model="formData.email">
+                    <input type="email" id="email" name="email" class="login-input" placeholder="Email" v-model="formData.email">
+                    <p v-if="validationErrors.email" style="color: red; font-size: 13px;">{{ validationErrors.email }}</p>
                 </div>
                 <div class="input-container">
-                    <input type="password" id="password" name="password" required class="login-input" placeholder="Password" v-model="formData.password">
+                    <input type="password" id="password" name="password" class="login-input" placeholder="Password" v-model="formData.password">
+                    <p v-if="validationErrors.password" style="color: red; font-size: 13px;">{{ validationErrors.password }}</p>
                 </div>
-                <br>
                 <button type="submit" class="login-button">로그인</button>
             </form>
             <hr>
@@ -27,17 +28,36 @@ export default {
       formData: {
         email: '',
         password: ''
+      },
+      validationErrors: {
+        email: '',
+        password: ''
       }
     }
   },
   methods: {
+    validateForm () {
+      this.validationErrors = {
+        email: '',
+        password: ''
+      }
+      if (!this.formData.email) {
+        this.validationErrors.email = '이메일을 입력해주세요.'
+      }
+      if (!this.formData.password) {
+        this.validationErrors.password = '비밀번호를 입력해주세요.'
+      }
+      return Object.values(this.validationErrors).every(error => !error)
+    },
     loginSubmit () {
-      console.log(this.formData)
-      this.$router.push('/select')
+      if (this.validateForm()) {
+        // 데이터 넘기는 코드 추가
+        console.log(this.formData)
+        this.$router.push('/select')
+      }
     }
   }
 }
-
 </script>
 
 <style>
