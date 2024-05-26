@@ -52,7 +52,9 @@ export default {
     loginSubmit () {
       if (this.validateForm()) {
         // 데이터 넘기는 코드 추가
-        console.log(this.formData)
+        const target = this.formData
+        const jsonString = JSON.stringify(target)
+        console.log(jsonString)
         this.$router.push('/select')
       }
     }

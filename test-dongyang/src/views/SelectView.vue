@@ -141,7 +141,9 @@ export default {
     },
     selectSubmit () {
       // 제출 로직 추가
-      console.log(this.formData)
+      const target = this.formData
+      const jsonString = JSON.stringify(target)
+      console.log(jsonString)
       this.$router.push('/main')
     },
     updateTechnologies () {
