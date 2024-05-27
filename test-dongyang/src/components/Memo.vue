@@ -18,7 +18,9 @@ export default {
     resize: none;
     border-radius: 10px;
     border: 1px solid #cccccc00;
-    font-size: 20px;
+    font-size: 17px;
+    font-weight: bold;
+    font-family: NotoSans, Helvetica, Arial, sans-serif;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
  }
 </style>

@@ -61,6 +61,7 @@ export default {
   }
   .main-2 {
     padding-top: 250px;
+    background-color: white;
     width: 30%;
   }
 </style>
