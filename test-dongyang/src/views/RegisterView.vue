@@ -9,6 +9,11 @@
                     <p v-if="validationErrors.email" style="color: red; font-size: 13px;">{{ validationErrors.email }}</p>
                 </div>
                 <div class="input-container">
+                    <p style="text-align:left; font-size:13px">Username</p>
+                    <input type="text" id="username" name="username" class="login-input" placeholder="Username" v-model="formData.username">
+                    <p v-if="validationErrors.password" style="color: red; font-size: 13px;">{{ validationErrors.username }}</p>
+                </div>
+                <div class="input-container">
                     <p style="text-align:left; font-size:13px">Create Password</p>
                     <input type="password" id="password" name="password" class="login-input" placeholder="Password" v-model="formData.password">
                     <p v-if="validationErrors.password" style="color: red; font-size: 13px;">{{ validationErrors.password }}</p>
@@ -31,11 +36,13 @@ export default {
     return {
       formData: {
         email: '',
+        username: '',
         password: '',
         confirm: ''
       },
       validationErrors: {
         email: '',
+        username: '',
         password: '',
         confirm: ''
       }
@@ -45,11 +52,15 @@ export default {
     validateForm () {
       this.validationErrors = {
         email: '',
+        username: '',
         password: '',
         confirm: ''
       }
       if (!this.formData.email) {
         this.validationErrors.email = '이메일을 입력해주세요.'
+      }
+      if (!this.formData.username) {
+        this.validationErrors.username = '닉네임을 입력해주세요.'
       }
       if (!this.formData.password) {
         this.validationErrors.password = '비밀번호를 입력해주세요.'

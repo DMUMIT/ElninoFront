@@ -12,6 +12,7 @@
                     <input type="password" id="password" name="password" class="login-input" placeholder="Password" v-model="formData.password">
                     <p v-if="validationErrors.password" style="color: red; font-size: 13px;">{{ validationErrors.password }}</p>
                 </div>
+                <p v-if="validationErrors.general" style="color: red; font-size: 13px;">{{ validationErrors.general }}</p>
                 <button type="submit" class="login-button">로그인</button>
             </form>
             <hr>
@@ -31,7 +32,8 @@ export default {
       },
       validationErrors: {
         email: '',
-        password: ''
+        password: '',
+        general: ''
       }
     }
   },
@@ -39,7 +41,8 @@ export default {
     validateForm () {
       this.validationErrors = {
         email: '',
-        password: ''
+        password: '',
+        general: ''
       }
       if (!this.formData.email) {
         this.validationErrors.email = '이메일을 입력해주세요.'
@@ -51,11 +54,18 @@ export default {
     },
     loginSubmit () {
       if (this.validateForm()) {
-        // 데이터 넘기는 코드 추가
-        const target = this.formData
-        const jsonString = JSON.stringify(target)
-        console.log(jsonString)
-        this.$router.push('/select')
+        const validEmail = 'test@a.com'
+        const validPassword = '1234'
+
+        if (this.formData.email === validEmail && this.formData.password === validPassword) {
+          // 데이터 넘기는 코드 추가
+          const target = this.formData
+          const jsonString = JSON.stringify(target)
+          console.log(jsonString)
+          this.$router.push('/select')
+        } else {
+          this.validationErrors.general = '로그인 정보가 맞지 않습니다. 다시 시도해주세요.'
+        }
       }
     }
   }
