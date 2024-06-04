@@ -85,6 +85,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'SelectView',
   data () {
@@ -106,51 +108,57 @@ export default {
         풀스택: ['Java', 'Spring', 'Node.js', 'Django', 'Docker', 'html/css', 'vue.js', 'react', 'figma']
       },
       favoriteSite: ['Youtube', 'Inflearn', '코드잇', 'K-MOOC']
-    }
+    };
   },
   methods: {
     validateForm () {
       this.validationErrors = {
         message: ''
-      }
+      };
       if (this.step === 1 && !this.formData.grade) {
-        this.validationErrors.message = '학년을 선택해주세요.'
-        return false
+        this.validationErrors.message = '학년을 선택해주세요.';
+        return false;
       }
       if (this.step === 2 && (!this.formData.category || this.formData.technologies.length === 0)) {
-        this.validationErrors.message = '카테고리와 선호 기술을 선택해주세요.'
-        return false
+        this.validationErrors.message = '카테고리와 선호 기술을 선택해주세요.';
+        return false;
       }
       if (this.step === 3 && this.formData.favoriteSite.length === 0) {
-        this.validationErrors.message = '선호 사이트를 선택해주세요.'
-        return false
+        this.validationErrors.message = '선호 사이트를 선택해주세요.';
+        return false;
       }
-      return true
+      return true;
     },
     nextStep () {
       if (this.validateForm()) {
         if (this.step < 4) {
-          this.step++
+          this.step++;
         }
       }
     },
     prevStep () {
       if (this.step > 1) {
-        this.step--
+        this.step--;
       }
     },
-    selectSubmit () {
-      // 제출 로직 추가
-      const target = this.formData
-      const jsonString = JSON.stringify(target)
-      console.log(jsonString)
-      this.$router.push('/main')
+    async selectSubmit () {
+      try {
+        const response = await axios.post('http://localhost:8080/survey/submit', {
+          responses: this.formData
+        });
+        console.log(response.data);
+        alert('Survey submitted successfully!');
+        this.$router.push('/main');
+      } catch (error) {
+        console.error('Error submitting survey:', error);
+        alert('Error submitting survey');
+      }
     },
     updateTechnologies () {
-      this.formData.technologies = [] // 카테고리가 변경될 때 선택된 기술 초기화
+      this.formData.technologies = []; // 카테고리가 변경될 때 선택된 기술 초기화
     }
   }
-}
+};
 </script>
 
 <style scoped>

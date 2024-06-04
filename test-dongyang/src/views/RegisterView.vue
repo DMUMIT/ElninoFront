@@ -1,38 +1,41 @@
 <template>
-    <div class="login">
-        <div class="login-box">
-            <form @submit.prevent="accountSubmit">
-                <img alt="logo" class="logo" src="../assets/elnino.png">
-                <h2>Sign Up</h2>
-                <div class="input-container">
-                    <input type="email" id="email" name="email" class="login-input" placeholder="Email" v-model="formData.email">
-                    <p v-if="validationErrors.email" style="color: red; font-size: 13px;">{{ validationErrors.email }}</p>
-                </div>
-                <div class="input-container">
-                    <p style="text-align:left; font-size:13px">Username</p>
-                    <input type="text" id="username" name="username" class="login-input" placeholder="Username" v-model="formData.username">
-                    <p v-if="validationErrors.password" style="color: red; font-size: 13px;">{{ validationErrors.username }}</p>
-                </div>
-                <div class="input-container">
-                    <p style="text-align:left; font-size:13px">Create Password</p>
-                    <input type="password" id="password" name="password" class="login-input" placeholder="Password" v-model="formData.password">
-                    <p v-if="validationErrors.password" style="color: red; font-size: 13px;">{{ validationErrors.password }}</p>
-                </div>
-                <div class="input-container">
-                    <p style="text-align:left; font-size:13px">Confirm Password</p>
-                    <input type="password" id="confirm" name="confirm" class="login-input" placeholder="Password" v-model="formData.confirm">
-                    <p v-if="validationErrors.confirm" style="color: red; font-size: 13px;">{{ validationErrors.confirm }}</p>
-                </div>
-                <button type="submit" class="signup-button">회원가입</button>
-            </form>
+  <div class="login">
+    <div class="login-box">
+      <form @submit.prevent="accountSubmit">
+        <img alt="logo" class="logo" src="../assets/elnino.png">
+        <h2>Sign Up</h2>
+        <div class="input-container">
+          <input type="email" id="email" name="email" class="login-input" placeholder="Email" v-model="formData.email" />
+          <p v-if="validationErrors.email" style="color: red; font-size: 13px;">{{ validationErrors.email }}</p>
         </div>
+        <div class="input-container">
+          <p style="text-align:left; font-size:13px">Username</p>
+          <input type="text" id="username" name="username" class="login-input" placeholder="Username" v-model="formData.username" />
+          <p v-if="validationErrors.username" style="color: red; font-size: 13px;">{{ validationErrors.username }}</p>
+        </div>
+        <div class="input-container">
+          <p style="text-align:left; font-size:13px">Create Password</p>
+          <input type="password" id="password" name="password" class="login-input" placeholder="Password" v-model="formData.password" />
+          <p v-if="validationErrors.password" style="color: red; font-size: 13px;">{{ validationErrors.password }}</p>
+        </div>
+        <div class="input-container">
+          <p style="text-align:left; font-size:13px">Confirm Password</p>
+          <input type="password" id="confirm" name="confirm" class="login-input" placeholder="Password" v-model="formData.confirm" />
+          <p v-if="validationErrors.confirm" style="color: red; font-size: 13px;">{{ validationErrors.confirm }}</p>
+        </div>
+        <button type="submit" class="login-button" onclick="location.href='/login'">로그인</button>
+        <hr>
+        <button type="submit" class="signup-button">회원가입</button>
+      </form>
     </div>
+  </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
-  name: 'RegisterView',
-  data () {
+  data() {
     return {
       formData: {
         email: '',
@@ -40,91 +43,114 @@ export default {
         password: '',
         confirm: ''
       },
-      validationErrors: {
-        email: '',
-        username: '',
-        password: '',
-        confirm: ''
-      }
+      validationErrors: {}
     }
   },
   methods: {
-    validateForm () {
-      this.validationErrors = {
-        email: '',
-        username: '',
-        password: '',
-        confirm: ''
+    async accountSubmit() {
+      this.validationErrors = this.validateForm()
+      if (Object.keys(this.validationErrors).length === 0) {
+        try {
+          const response = await axios.post('http://localhost:8080/users/register', {
+            email: this.formData.email,
+            username: this.formData.username,
+            password: this.formData.password
+          })
+          console.log(response.data)
+          this.$router.push('/login') // 회원가입 성공 시 로그인 페이지로 이동
+        } catch (error) {
+          console.error('Error registering user:', error)
+        }
       }
+    },
+    validateForm() {
+      const errors = {}
       if (!this.formData.email) {
-        this.validationErrors.email = '이메일을 입력해주세요.'
+        errors.email = '이메일을 입력해주세요'
       }
       if (!this.formData.username) {
-        this.validationErrors.username = '닉네임을 입력해주세요.'
+        errors.username = '유저네임을 입력해주세요'
       }
       if (!this.formData.password) {
-        this.validationErrors.password = '비밀번호를 입력해주세요.'
+        errors.password = '비밀번호를 입력해주세요'
       }
-      if (!this.formData.confirm) {
-        this.validationErrors.confirm = '비밀번호 확인을 위해 입력해주세요.'
+      if (this.formData.password !== this.formData.confirm) {
+        errors.confirm = '비밀번호가 일치하지 않습니다'
       }
-      if (this.formData.password && this.formData.confirm && this.formData.password !== this.formData.confirm) {
-        this.validationErrors.confirm = '동일한 비밀번호를 입력해주세요.'
-      }
-      return Object.values(this.validationErrors).every(error => !error)
-    },
-    accountSubmit () {
-      if (this.validateForm()) {
-        // 데이터 넘기는 코드 추가
-        const target = this.formData
-        const jsonString = JSON.stringify(target)
-        console.log(jsonString)
-        this.$router.push('/login')
-      }
+      return errors
     }
   }
 }
 </script>
 
-<style>
-    .logo {
-        width: 230px;
-        height: 60px;
-        display: block;
-    }
-    .login {
-        padding-top: 7%;
-    }
-    .login-box {
-        width: 450px;
-        margin: auto;
-        border: 1px solid #ebebeb;
-        border-radius: 50px;
-        background-color: #ebebeb;
-        padding: 50px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    .input-container {
-        margin-bottom: 15px;
-    }
-    .login-input {
-        width: calc(100% - 22px);
-        padding: 15px;
-        border: 1px solid #cccccc00;
-        border-radius: 5px;
-        background-color: #e6e6e6;
-    }
-    .signup-button {
-        width: 100%;
-        padding: 15px;
-        margin-top: 10px;
-        border: none;
-        background-color: #535353;
-        color: white;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-    .signup-button:hover {
-        background-color: #2c2c2c;
+<style scoped>
+/* 추가적인 스타일을 여기에 추가하세요 */
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-box {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  max-width: 100%;
+}
+
+.logo {
+  display: block;
+  margin: 0 auto 1rem;
+  width: 150px;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.input-container {
+  margin-bottom: 1rem;
+}
+
+.login-input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.signup-button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.signup-button:hover {
+  background-color: #0056b3;
+}
+
+.login-button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.login-button:hover {
+  background-color: #0056b3;
     }
 </style>
