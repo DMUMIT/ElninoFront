@@ -1,34 +1,70 @@
 <template>
   <div class="Main">
+    <!-- 계정 당 DB에 저장된 설문조사 값에 따른 데이터 표시 -->
       <h3>선택기술</h3>
-         <button class="tech-button">Java</button>
-         <button class="tech-button">Spring</button>
-         <button class="tech-button">SQL</button>
+         <button v-for="tech in techList" :key="tech" class="tech-button">{{tech}}</button>
       <br>
-      <h3>Youtube</h3>
-         <TestList/> <!-- 테스트 페이지 -->
-      <hr>
-      <h3>Inflearn</h3> <!-- 테스트 단락 -->
-         <div style="display: flex; overflow-x: auto;">
-            <a href="https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B8%B0%EB%B3%B8%ED%8E%B8"><img alt="test" style="margin-right: 10px;" src="../assets/spring1.png"></a>
-            <a href="https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-db-2"><img alt="test" style="margin-right: 10px;" src="../assets/spring2.png"></a>
-            <a href="https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8-JPA-%ED%99%9C%EC%9A%A9-1"><img alt="test" style="margin-right: 10px;" src="../assets/spring3.png"></a>
-            <a href="https://www.inflearn.com/course/sql-db-mysql-%ED%8C%8C%EC%9D%B4%EC%8D%AC-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B6%84%EC%84%9D"><img alt="test" style="margin-right: 10px;" src="../assets/sql.png"></a>
+      <h3 v-if="showYoutube">Youtube</h3>
+        <div v-if="showYoutube" class="ItemList">
+          <div class="content" v-for="(yt, index) in ytList" :key="index">
+            <iframe :src="yt.url" width="300" height="190" class="player" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <p>{{ yt.title }}</p>
+          </div>
+        </div>
+      <h3 v-if="showInflearn">Inflearn</h3> <!-- 테스트 단락 -->
+         <div v-if="showInflearn" style="display: flex; overflow-x: auto;">
+            <a v-for="(inf, index) in infList" :key="index" :href="inf"><img :alt="'image' + (index + 1)" :src="getImageSource(index)" style="margin-right: 10px;"></a>
          </div>
-      <!-- 이후 추가
-         <h3>코드잇</h3>
-         <h3>K-MOOC</h3>
-      -->
+      <h3 v-if="showCodeit">코드잇</h3>
+      <h3 v-if="showKmooc">K-MOOC</h3>
   </div>
 </template>
 
 <script>
-import TestList from '@/components/TestList.vue'
-
 export default {
   name: 'MainItem',
-  components: {
-    TestList
+  data() {
+    return {
+      techList: ['Java', 'Spring', 'SQL', 'Nodejs'],
+      cateList: ['youtube', 'inflearn'],
+      infList: [
+        'https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B8%B0%EB%B3%B8%ED%8E%B8',
+        'https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-db-2',
+        'https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8-JPA-%ED%99%9C%EC%9A%A9-1'
+      ],
+      ytList: [
+        { url: 'https://www.youtube.com/embed/jdTsJzXmgU0?si=fOC2f7_3qiSgFj24', title: '자바 수업을 리뉴얼 했습니다' },
+        { url: 'https://www.youtube.com/embed/qR90tdW0Hbo?si=-pYicpLqVfnLPVuB', title: 'Java - 소개와 수업 소개' },
+        { url: 'https://www.youtube.com/embed/kyFrm3zKryE?si=O0pX4HuFpd4EccBf', title: 'Java - 설치' },
+        { url: 'https://www.youtube.com/embed/2HNmQaMQiw4?si=FSYTQ5MmY45ps182', title: 'Java - 설치와 실행2 : 리눅스에 Java ...' }
+      ],
+      ciList: [],
+      kmList: []
+    }
+  },
+  computed: {
+    showYoutube() {
+      return this.cateList.includes('youtube')
+    },
+    showInflearn() {
+      return this.cateList.includes('inflearn')
+    },
+    showCodeit() {
+      return this.cateList.includes('codeit')
+    },
+    showKmooc() {
+      return this.cateList.includes('kmooc')
+    }
+  },
+  methods: {
+    getImageSource(index) {
+      const images = [
+        require('../assets/spring1.png'),
+        require('../assets/spring2.png'),
+        require('../assets/spring3.png')
+      ];
+      return images[index] || '';
+    }
   }
 }
 </script>
@@ -52,4 +88,17 @@ export default {
     padding-left: 1%;
     text-align: left;
  }
+ .player {
+    margin-right: 10px;
+ }
+ .ItemList {
+    overflow-x: auto;
+    white-space: nowrap;
+    display: flex;
+  }
+ .content {
+    text-align: left;
+    font-size: 17px;
+    font-weight: bold;
+  }
 </style>
