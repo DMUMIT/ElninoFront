@@ -23,9 +23,9 @@
           <input type="password" id="confirm" name="confirm" class="login-input" placeholder="Password" v-model="formData.confirm" />
           <p v-if="validationErrors.confirm" style="color: red; font-size: 13px;">{{ validationErrors.confirm }}</p>
         </div>
-        <button type="submit" class="login-button" onclick="location.href='/login'">로그인</button>
-        <hr>
         <button type="submit" class="signup-button">회원가입</button>
+        <hr>
+        <button type="submit" class="login-button" onclick="location.href='/login'">로그인</button>
       </form>
     </div>
   </div>
@@ -66,16 +66,16 @@ export default {
     validateForm() {
       const errors = {}
       if (!this.formData.email) {
-        errors.email = '이메일을 입력해주세요'
+        errors.email = 'Email is required'
       }
       if (!this.formData.username) {
-        errors.username = '유저네임을 입력해주세요'
+        errors.username = 'Username is required'
       }
       if (!this.formData.password) {
-        errors.password = '비밀번호를 입력해주세요'
+        errors.password = 'Password is required'
       }
       if (this.formData.password !== this.formData.confirm) {
-        errors.confirm = '비밀번호가 일치하지 않습니다'
+        errors.confirm = 'Passwords do not match'
       }
       return errors
     }
@@ -117,7 +117,7 @@ h2 {
 }
 
 .login-input {
-  width: 100%;
+  width: 95%;
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -127,7 +127,7 @@ h2 {
 .signup-button {
   width: 100%;
   padding: 0.75rem;
-  background-color: #007bff;
+  background-color: #979a9c;
   border: none;
   border-radius: 5px;
   color: white;
@@ -136,13 +136,13 @@ h2 {
 }
 
 .signup-button:hover {
-  background-color: #0056b3;
+  background-color: #616161;
 }
 
 .login-button {
   width: 100%;
   padding: 0.75rem;
-  background-color: #007bff;
+  background-color: #8ee6b5;
   border: none;
   border-radius: 5px;
   color: white;
@@ -151,6 +151,6 @@ h2 {
 }
 
 .login-button:hover {
-  background-color: #0056b3;
+  background-color: #609c7b;
     }
 </style>

@@ -1,12 +1,17 @@
 <template>
   <div class="main">
     <img alt="logo" class="main-logo" src="../assets/elnino.png">
+    <div class="account">
+          {{username}} 님 환영합니다
+          <button @click="logout">로그아웃</button>
+    </div>
     <div class="main-body">
       <div class="main-1">
         <MainItem/>
       </div>
       <div class="main-2">
         <p style="font-weight: bold; font-size: 25px;">{{ currentDateTime }}</p>
+        <p> {{username}} </p>
         <MemoItem/>
       </div>
     </div>
@@ -14,7 +19,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import MainItem from '@/components/Main.vue'
 import MemoItem from '@/components/Memo.vue'
 
@@ -43,6 +47,11 @@ export default {
       const minutes = String(now.getMinutes()).padStart(2, '0')
       const seconds = String(now.getSeconds()).padStart(2, '0')
       this.currentDateTime = `${year}.${month}.${day} ${hours}:${minutes}:${seconds}`
+    },
+    logout() {
+      // 로그아웃 동작 처리
+      this.$store.dispatch('logout');
+      this.$router.push('/login');
     }
   }
 }

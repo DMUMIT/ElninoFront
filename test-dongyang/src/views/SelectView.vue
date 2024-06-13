@@ -1,3 +1,4 @@
+/* eslint-disable */
 <template>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <div class="select">
@@ -89,10 +90,11 @@ import axios from 'axios';
 
 export default {
   name: 'SelectView',
-  data () {
+  data() {
     return {
       step: 1,
       formData: {
+        email: '',
         grade: '',
         category: '',
         technologies: [],
@@ -110,8 +112,16 @@ export default {
       favoriteSite: ['Youtube', 'Inflearn', '코드잇', 'K-MOOC']
     };
   },
+  created() {
+    this.formData.email = this.$route.query.email;
+    if (!this.formData.email) {
+      alert('Email is required for the survey.');
+      this.$router.push('/login');
+    }
+    this.checkExistingSurvey();
+  },
   methods: {
-    validateForm () {
+    validateForm() {
       this.validationErrors = {
         message: ''
       };
@@ -129,33 +139,49 @@ export default {
       }
       return true;
     },
-    nextStep () {
+    nextStep() {
       if (this.validateForm()) {
         if (this.step < 4) {
           this.step++;
         }
       }
     },
-    prevStep () {
+    prevStep() {
       if (this.step > 1) {
         this.step--;
       }
     },
-    async selectSubmit () {
+    async selectSubmit() {
       try {
-        const response = await axios.post('http://localhost:8080/survey/submit', {
-          responses: this.formData
-        });
+        const response = await axios.post('http://localhost:8080/survey/submit', this.formData);
         console.log(response.data);
-        alert('Survey submitted successfully!');
-        this.$router.push('/main');
+        if (response.data.redirectTo) {
+          this.$router.push(response.data.redirectTo);
+        } else {
+          alert('Survey submitted successfully!');
+          this.$router.push('/main');
+        }
       } catch (error) {
         console.error('Error submitting survey:', error);
         alert('Error submitting survey');
       }
     },
-    updateTechnologies () {
+    updateTechnologies() {
       this.formData.technologies = []; // 카테고리가 변경될 때 선택된 기술 초기화
+    },
+    async checkExistingSurvey() {
+      try {
+        const response = await axios.get('http://localhost:8080/survey/data');
+        const surveys = response.data;
+        const userSurvey = surveys.find(survey => survey.email === this.formData.email);
+
+        if (userSurvey) {
+          console.log('Survey already exists, redirecting to main page');
+          this.$router.push('/main');
+        }
+      } catch (error) {
+        console.error('Error checking existing survey:', error);
+      }
     }
   }
 };

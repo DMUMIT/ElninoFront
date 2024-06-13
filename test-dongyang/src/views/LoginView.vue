@@ -14,13 +14,14 @@
         </div>
         <button type="submit" class="login-button">로그인</button>
       </form>
-      <button type="submit" class="signup-button" onclick="location.href='/register'">회원가입</button>
+      <br>
+      <button type="submit" class="signup-button" @click="goToRegister">회원가입</button>
     </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import axios from 'axios';
 
 export default {
   data() {
@@ -30,41 +31,56 @@ export default {
         password: ''
       },
       validationErrors: {}
-    }
+    };
   },
   methods: {
-    async login() {
-      this.validationErrors = this.validateForm()
-      if (Object.keys(this.validationErrors).length === 0) {
-        try {
-          const response = await axios.post('http://localhost:8080/users/login', {
-            email: this.formData.email,
-            password: this.formData.password
-          })
-          console.log(response.data)
-          if (response.data === 'Login successful') {
-            this.$router.push('/select')
-          } else {
-            this.validationErrors.general = 'Invalid email or password'
-          }
-        } catch (error) {
-          console.error('Error logging in user:', error)
-          this.validationErrors.general = 'Server error'
-        }
-      }
+    goToRegister() {
+      this.$router.push('/register');
     },
-    validateForm() {
-      const errors = {}
+    async login() {
+      this.validationErrors = {}; // Reset validation errors
       if (!this.formData.email) {
-        errors.email = '이메일을 입력해주세요'
+        this.validationErrors.email = 'Email is required';
       }
       if (!this.formData.password) {
-        errors.password = '비밀번호를 입력해주세요'
+        this.validationErrors.password = 'Password is required';
       }
-      return errors
+      if (Object.keys(this.validationErrors).length > 0) {
+        return;
+      }
+
+      try {
+        const response = await axios.post('http://localhost:8080/users/login', {
+          email: this.formData.email,
+          password: this.formData.password
+        }, { withCredentials: true });
+
+        console.log('Server response:', response.data);
+
+        if (response.data.success) {
+          const surveyResponse = await axios.get('http://localhost:8080/survey/checkSurvey', {
+            params: { email: this.formData.email }
+          });
+          const userSurvey = surveyResponse.data.exists;
+
+          if (userSurvey) {
+            console.log('Survey already exists, redirecting to main page');
+            this.$router.push('/main');
+          } else {
+            console.log('No survey found, redirecting to survey page');
+            this.$router.push({ path: '/select', query: { email: this.formData.email } });
+          }
+        } else {
+          console.log('Login failed:', response.data.message);
+          alert(response.data.message);
+        }
+      } catch (error) {
+        console.error('Error logging in:', error);
+        alert('An error occurred during login');
+      }
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -101,17 +117,17 @@ h2 {
 }
 
 .login-input {
-  width: 100%;
+  width: 95%;
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 1rem;
 }
 
-.login-button {
+.signup-button {
   width: 100%;
   padding: 0.75rem;
-  background-color: #007bff;
+  background-color: #979a9c;
   border: none;
   border-radius: 5px;
   color: white;
@@ -119,21 +135,22 @@ h2 {
   cursor: pointer;
 }
 
-.signup-button {
-        width: 100%;
-        padding: 15px;
-        margin-top: 10px;
-        border: none;
-        background-color: #007bff;
-        color: white;
-        border-radius: 5px;
-        cursor: pointer;
-    }
+.signup-button:hover {
+  background-color: #616161;
+}
+
+.login-button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #8ee6b5;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+}
 
 .login-button:hover {
-  background-color: #0056b3;
-}
-.signup-button:hover {
-  background-color: #0056b3;
-}
+  background-color: #609c7b;
+    }
 </style>
